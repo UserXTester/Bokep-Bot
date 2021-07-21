@@ -49,7 +49,7 @@ async def help(_, message):
         """**Di bawah ini adalah Perintah Saya...**
 /help Untuk Menampilkan Pesan Ini.\n
 /repo Untuk Mendapatkan Repo.\n
-
+/cari <video yang mau di cari> Hanya berlaku di group.\n
 Untuk Mencari di PHub cukup Ketik sesuatu"""
     )
     
@@ -72,9 +72,7 @@ async def repo(_, message):
        )
 
 # Let's Go----------------------------------------------------------------------
-@app.on_message(
-    filters.private & ~filters.edited & ~filters.command("help") & ~filters.command("start") & ~filters.command("repo")
-    )
+@app.on_message(filters.private & ~filters.edited & ~filters.command("help") & ~filters.command("start") & ~filters.command("repo") & ~filters.command("cari"))
 async def sarch(_,message):
     try:
         if "/" in message.text.split(None,1)[0]:
