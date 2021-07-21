@@ -42,6 +42,7 @@ Ini adalah repo yang di modifikasi karna khilaf dan kepo.
 start - Memulai bot
 repo - Menampilkan sumber
 help - Cara penggunaan
+cari - Khusus di group
 ```
 
 Tinggal salin tempel ke pengaturan, Edit bot, Edit command di bot father
