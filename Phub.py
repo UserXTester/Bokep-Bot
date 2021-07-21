@@ -293,5 +293,54 @@ async def callback_query_dl(_, query):
 @app.on_callback_query(filters.regex("delete"))
 async def callback_query_delete(_, query):
     await query.message.delete()
+
+@app.on_message(filters.command("cari") & filters.group & ~ filters.edited)
+async def sarch(_,message):
+    try:
+        if "/" in message.text.split(None,1)[0]:
+            await message.reply_text(
+                "**Penggunaan:**\nCukup ketik Sesuatu untuk dicari di PHub Secara Langsung"
+            )
+            return
+    except:
+        pass
+    m = await message.reply_text("Mendapatkan Hasil.....")
+    search = message.text
+    try:
+        resp = await pornhub(search,thumbsize="large")
+        res = resp.result
+    except:
+        await m.edit("Tidak Menemukan... Coba lagi")
+        return
+    if not resp.ok:
+        await m.edit("Tidak Menemukan... Coba lagi")
+        return
+    resolt = f"""
+**🏷JUDUL:** {res[0].title}
+**⏰DURASI:** {res[0].duration}
+**👁‍🗨DILIHAT:** {res[0].views}
+**🌟RATING:** {res[0].rating}"""
+    await m.delete()
+    m = await message.reply_photo(
+        photo=res[0].thumbnails[0].src,
+        caption=resolt,
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("▶️NEXT",
+                                         callback_data="next"),
+                    InlineKeyboardButton("🗑HAPUS",
+                                         callback_data="delete"),
+                ],
+                [
+                    InlineKeyboardButton("📥DOWNLOAD",
+                                         callback_data="dload")
+                ]
+            ]
+        ),
+        parse_mode="markdown",
+    )
+    new_db={"result":res,"curr_page":0}
+    db[message.chat.id] = new_db
     
 app.run()
