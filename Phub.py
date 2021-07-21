@@ -296,15 +296,7 @@ async def callback_query_delete(_, query):
 
 @app.on_message(filters.command("cari") & filters.group & ~ filters.edited)
 async def sarch(_,message):
-    try:
-        if "/" in message.text.split(None,1)[0]:
-            await message.reply_text(
-                "**Penggunaan:**\nCukup ketik Sesuatu untuk dicari di PHub Secara Langsung"
-            )
-            return
-    except:
-        pass
-    m = await message.reply_text("Mendapatkan Hasil.....")
+    await message.reply_text("Mendapatkan Hasil.....")
     search = message.text
     try:
         resp = await pornhub(search,thumbsize="large")
